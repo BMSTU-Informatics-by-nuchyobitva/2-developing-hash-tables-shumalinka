@@ -1,104 +1,150 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/BX65L5j-)
-# Семинар 2
+# Лабораторная работа 2
+30 вариант - 2 - **Открытая адресация: квадратичное пробирование**
+# Отчет
+Реализована хэш-таблица с использованием открытой адресации и квадратичного пробирования на основе класса film, создан класс HashTable, который включает в себя методы для вставки, поиска, удаления и вывода элементов. 
 
-Данная работа направлена на изучение структур данных типа Hash Table.
-В рамках данной работы вам предстоит выполнить следующие задания:
 
-- [ ] Освежить память в части хэш-таблиц, поработав с [симулятором заполнения хэш-таблицы](https://www.cs.usfca.edu/~galles/visualization/OpenHash.html)
-- [ ] Поэкспериментировать с хэш-таблицами в [симуляторе кастомных хэш-функций](https://iswsa.acm.org/mphf/openDSAPerfectHashAnimation/perfectHashAV.html). Здесь можно выбрать разные хэш-функции, методы разрешения коллизий и т.д.
-- [ ] Прочитайте [полезную статью](https://habr.com/ru/companies/ruvds/articles/747084/), чтобы дальше было проще создать свою хэш-функцию
-- [ ] Далее определите свой вариант **N**, чтобы выполнить задание ниже
-- [ ] Сделайте отчёт о проделанной работе
-
-Выберите ваш метод разрешения коллизий:
-- N % 4 = 0 - **Метод цепочек** 
-- N % 4 = 1 - **Открытая адресация: линейное пробирование**
-- N % 4 = 2 - **Открытая адресация: квадратичное пробирование**
-- N % 4 = 3 - **Открытая адресация: двойное хэширование**
-
-Далее вам необходимо придумать любой класс данных. Неважно, что это будет, главное, чтобы:
-1) Вы придумали его **сами**!
-2) В нём было хотя бы одно поле типа **int** и одно типа **string** (больше - на ваше усмотрение)
-
-Что-то типа такого:
+1. **Класс film**: Содержит два поля — numintop (номер фильма в топе) и name (название фильма).
 
 ```
-class myTypeOfData{
-	int year;
-	string name;
-	// other variables (if needed)
-};
-```
-Только из названия вашего типа данных, должно быть понятно, что это. То есть типа class Student с номером зачётки и именем, или class Car и т.д.
-
-Далее необходимо реализовать классическую хэш-таблицу, со следующими параметрами. У хэш-таблицы должны быть:
-
-- [ ] Метод вставки элемента
-- [ ] Метод поиска элемента
-- [ ] Метод удаления элемента
-- [ ] Метод вывода хэш-таблицы
-- [ ] Сама хэш-функция (разумеется!)
-
-Самый главный параметр оценки вашей работы - это оригинальность вашей хэш-функции, вы можете использовать разные методы:
-- Комбинирование хэшей полей
-- Полиномиальное хэширование
-- Хэширование на основе битовых операций
-- Хэширование на основе строкового представления
-
-В результате, исходя из того, как вы строите хэш-таблицу, у каждого код будет выглядеть по-своему.
-Шаблоны в итоговой сборке использовать не надо (шаблоны только в примере для абстракции), только стандартные типы данных, по итогу должен получиться файл .cpp примерно такого содержания:
-
-```
-#include <iostream>
-#include <vector>
-#include <list>
-#include <string>
-
-template <typename K, typename V>
-struct KeyValuePair {
-    K key;
-    V value;
-};
-
-template <typename K, typename V, typename Hash = std::hash<K>>
-class HashTable {
-private:
-    std::vector<std::list<KeyValuePair<K, V>>> table; // Вектор списков для хранения данных
-    size_t capacity; // Размер таблицы
-    Hash hashFunction; // Хэш-функция
-
-    // Внутренние методы
-    size_t getIndex(const K& key) const; // Получить индекс по ключу
-    void rehash(); // Рехэширование
-
+class film {   // Определение класса film
 public:
-    // Конструкторы
-    HashTable(size_t initialCapacity = 10);
-    ~HashTable();
-
-    // Основные операции
-    void insert(const K& key, const V& value); // Вставка элемента
-    bool remove(const K& key); // Удаление элемента
-    bool find(const K& key, V& value) const; // Поиск элемента
-    void clear(); // Очистка таблицы
-
-    // Дополнительные методы
-    size_t size() const; // Количество элементов в таблице
-    bool isEmpty() const; // Проверка на пустоту
-    void print() const; // Вывод таблицы
-
-    // Итераторы (опционально)
-    class Iterator;
-    Iterator begin();
-    Iterator end();
+    int numintop;
+    std::string name;
+    // Конструктор класса film, инициализирующий поля numintop и name
+    film(int num, const std::string& n) : numintop(num), name(n) {}
 };
-
-
 ```
 
-Отчёт о проделанной работе должен содержать:
-- [ ] Скриншот из [симулятора кастомных хэш-функций](https://iswsa.acm.org/mphf/openDSAPerfectHashAnimation/perfectHashAV.html), на котором вы показали, что работали с ним и заполнили его.
-- [ ] Файл .cpp с реализацией хэш-таблицы должен лежать в репозитории
-- [ ] В readme напишите свой вариант по списку и какое задание вам досталось, расскажите алгоритм работы, обоснование выбранных методов хэширования и типов данных
-- [ ] Всегда есть поле для творческой работы, поэтому можно по желанию добавить фичи или интересные доп. функции к хэш-таблице и рассказать о них 
+2. **Класс HashTable**:
 
+```
+class HashTable {
+private:    // Вложенная структура HashNode для хранения данных в хэш-таблице
+    struct HashNode {
+        film* data;
+        bool isDeleted;
+        HashNode() : data(nullptr), isDeleted(false) {}
+    };
+
+    std::vector<HashNode> table;
+    int capacity;
+    int size;
+```
+ Поля:
+
+- struct HashNode: Вложенная структура для хранения данных о фильме и флага удаления.
+
+- film* data: Указатель на объект film.
+
+- bool isDeleted: Флаг, указывающий, был ли узел удален.
+
+- std::vector<HashNode> table: Вектор для хранения узлов хэш-таблицы.
+
+- int capacity: Вместимость хэш-таблицы.
+
+- int size: Текущий размер хэш-таблицы.
+
+3. **Метод insert**: Вставляет новый элемент в таблицу, используя квадратичное пробирование для обработки коллизий.
+   
+```
+void insert(film* f) {
+    if (size >= capacity / 2) {
+        std::cout << "HashTable is full!" << std::endl;
+        return;
+    }
+
+    int index = hashFunction(f->numintop);
+    int i = 0;
+
+    while (table[index].data != nullptr && !table[index].isDeleted) {
+        index = (index + i * i) % capacity; // Квадратичное пробирование
+        i++;
+    }
+
+    table[index].data = f;
+    table[index].isDeleted = false;
+    size++;
+}
+```
+
+5. **Метод search**: Ищет элемент по ключу.
+   
+```
+film* search(int key) {
+    int index = hashFunction(key);
+    int i = 0;
+
+    while (table[index].data != nullptr) {
+        if (!table[index].isDeleted && table[index].data->numintop == key) {
+            return table[index].data;
+        }
+        index = (index + i * i) % capacity; // Квадратичное пробирование
+        i++;
+    }
+    return nullptr; // Элемент не найден
+}
+```
+
+7. **Метод remove**: Удаляет элемент из таблицы, устанавливая флаг isDeleted.
+
+```
+void remove(int key) {
+    int index = hashFunction(key);
+    int i = 0;
+    // Цикл для поиска объекта film в таблице и его удаления
+    while (table[index].data != nullptr) {
+        if (!table[index].isDeleted && table[index].data->numintop == key) {
+            table[index].isDeleted = true;
+            size--;
+            return;
+        }
+        index = (index + i * i) % capacity; // Квадратичное пробирование
+        i++;
+    }
+}
+```
+
+8. **Метод display**: Выводит содержимое хэш-таблицы.
+
+```
+ void display() {
+     for (int i = 0; i < capacity; ++i) {
+         if (table[i].data != nullptr && !table[i].isDeleted) {
+             std::cout << "Index " << i << ": " << table[i].data->numintop << ", " << table[i].data->name << std::endl;
+         }
+         else {
+             std::cout << "Index " << i << ": [empty]" << std::endl;
+         }
+     }
+ }
+```
+
+9. В функции **main()** создается объект хэш-таблицы, в нее добавляются несколько фильмов, выполняется поиск одного из них и демонстрируется удаление. После каждой операции содержимое таблицы выводится на экран.
+
+```
+int main() {
+    HashTable ht(10);
+
+    ht.insert(new film(1, "Film A"));
+    ht.insert(new film(2, "Film B"));
+    ht.insert(new film(3, "Film C"));
+
+    ht.display();
+
+    film* f = ht.search(2);
+    if (f) {
+        std::cout << "Found: " << f->name << std::endl;
+    }
+    else {
+        std::cout << "Not found." << std::endl;
+    }
+
+    ht.remove(2);
+    ht.display();
+
+    return 0;
+}
+```
+
+**скрин из симулятора**
